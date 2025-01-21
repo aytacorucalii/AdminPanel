@@ -1,0 +1,195 @@
+//index
+@model IEnumerable<PlaceListItemDTO>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Place</h6>
+            </div>
+            <div class="d-flex justify-content-end px-3 mt-3">
+                <a class="btn btn-primary" style="width: 160px" asp-controller="Place" asp-action="Create">+ Add Place</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (PlaceListItemDTO item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.Title</td>
+                                    <td>@item.CategoryTitle</td>
+                                    <td>
+                                        <a class="btn btn-primary" asp-controller="Place" asp-action="Update" asp-route-id="@item.Id">Update</a>
+                                        <a class="btn btn-danger" asp-controller="Place" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                        <a class="btn btn-info" asp-controller="Place" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+    <!-- Page level plugins -->
+    <script src="~/admin/vendor/datatables/jquery.dataTables.min.js" defer></script>
+    <script src="~/admin/vendor/datatables/dataTables.bootstrap4.min.js" defer></script>
+    
+    <!-- Page level custom scripts -->
+    <script src="~/admin/js/demo/datatables-demo.js" defer></script>
+
+    //Create
+    @model PlaceCreateDTO
+@{
+    SelectList categories = ViewData["Categories"] as SelectList;
+}
+
+<form class="container" method="POST" enctype="multipart/form-data">
+    <h2 class="my-4">Create Place</h2>
+    <div class="mb-3">
+        <label class="form-label" asp-for="Title"></label>
+        <input class="form-control" asp-for="Title" />
+        <span class="text-danger" asp-validation-for="Title"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="Description"></label>
+        <input class="form-control" asp-for="Description" />
+        <span class="text-danger" asp-validation-for="Description"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="Image"></label>
+        <input class="form-control" asp-for="Image" />
+        <span class="text-danger" asp-validation-for="Image"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="MinPrice"></label>
+        <input class="form-control" asp-for="MinPrice" />
+        <span class="text-danger" asp-validation-for="MinPrice"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="MaxPrice"></label>
+        <input class="form-control" asp-for="MaxPrice" />
+        <span class="text-danger" asp-validation-for="MaxPrice"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="Rating"></label>
+        <input class="form-control" asp-for="Rating" />
+        <span class="text-danger" asp-validation-for="Rating"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="RatingCount"></label>
+        <input class="form-control" asp-for="RatingCount" />
+        <span class="text-danger" asp-validation-for="RatingCount"></span>
+    </div>
+    <div class="mb-3">
+        <select class="custom-select" asp-items="categories" asp-for="CategoryId">
+            <option selected>Select Category</option>
+        </select>
+        <span class="text-danger" asp-validation-for="CategoryId"></span>
+    </div>
+    <div class="form-check mb-3">
+        <input class="form-check-input" class="form-control" asp-for="IsActive" />
+        <label class="form-check-label" asp-for="IsActive"></label>
+    </div>
+    <p class="text-danger text-center">@Html.ValidationMessage("CustomError")</p>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+
+//Update
+@model PlaceUpdateDTO
+@{
+    SelectList categories = ViewData["Categories"] as SelectList;
+}
+
+<form class="container" method="POST" enctype="multipart/form-data">
+    <h2 class="my-4">Update Place</h2>
+    <div class="mb-3">
+        <label class="form-label" asp-for="Title"></label>
+        <input class="form-control" asp-for="Title" />
+        <span class="text-danger" asp-validation-for="Title"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="Description"></label>
+        <input class="form-control" asp-for="Description" />
+        <span class="text-danger" asp-validation-for="Description"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="Image"></label>
+        <input class="form-control" asp-for="Image" />
+        <span class="text-danger" asp-validation-for="Image"></span>
+    </div>
+    <div class="mb-3">
+        <img style="width: 150px" src="~/uploads/places/@Model.ImageURL" />
+    </div>  
+    <div class="mb-3">
+        <label class="form-label" asp-for="MinPrice"></label>
+        <input class="form-control" asp-for="MinPrice" />
+        <span class="text-danger" asp-validation-for="MinPrice"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="MaxPrice"></label>
+        <input class="form-control" asp-for="MaxPrice" />
+        <span class="text-danger" asp-validation-for="MaxPrice"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="Rating"></label>
+        <input class="form-control" asp-for="Rating" />
+        <span class="text-danger" asp-validation-for="Rating"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="RatingCount"></label>
+        <input class="form-control" asp-for="RatingCount" />
+        <span class="text-danger" asp-validation-for="RatingCount"></span>
+    </div>
+    <div class="mb-3">
+        <select class="custom-select" asp-items="categories" asp-for="CategoryId">
+            <option selected>Select Category</option>
+        </select>
+        <span class="text-danger" asp-validation-for="CategoryId"></span>
+    </div>
+    <div class="form-check mb-3">
+        <input class="form-check-input" class="form-control" asp-for="IsActive" />
+        <label class="form-check-label" asp-for="IsActive"></label>
+    </div>
+    <p class="text-danger text-center">@Html.ValidationMessage("CustomError")</p>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+//Details
+@model Place
+
+<div class="container">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Category Details</h6>
+        </div>
+        <div class="card-body">
+            <img style="width: 150px" src="~/uploads/places/@Model.ImageURL" />
+            <p>Id: @Model.Id</p>
+            <p>Title: @Model.Title</p>
+            <p>Description: @Model.Description</p>
+            <p>Minimum price: @Model.MinPrice</p>
+            <p>Maximum price: @Model.MaxPrice</p>
+            <p>Rating: @Model.Rating</p>
+            <p>Rating count: @Model.RatingCount</p>
+            <p>Category: @Model.Category.Title</p>
+            <p>Active: @Model.IsActive</p>
+            <p>Create time: @Model.CreatedAt</p>
+            @if (Model.UpdatedAt is not null)
+            {
+                <p>Update time: @Model.UpdatedAt</p>
+            }
+        </div>
+    </div>
+</div>
